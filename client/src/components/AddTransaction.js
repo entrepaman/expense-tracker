@@ -1,13 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { GlobalContext } from "../context/GlobalState";
 
 export const AddTransaction = () => {
     const [text, setText] = useState("");
     const [amount, setAmount] = useState(0);
 
+    const { addTransaction } = useContext(GlobalContext);
+
+    const addTransactionHandler = (e) => {
+        e.preventDefault();
+
+        if(text !== "" && amount !== "" && amount !== 0) {
+            addTransaction({ text, amount });
+            setText("");
+            setAmount(0);
+        } else {
+            alert("Both inputs are required");
+        }
+    }
+
     return (
         <>
             <h3>Add Transaction</h3>
-            <form>
+            <form onSubmit={addTransactionHandler}>
                 <div className="form-control">
                     <label htmlFor="text">Text</label>
                     <input
